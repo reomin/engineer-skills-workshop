@@ -39,6 +39,7 @@ LEFT JOIN orders ON users.id = orders.user_id;
 ```
 
 その他の JOIN:
+
 - `RIGHT JOIN`: 右テーブルを全件にする（LEFT の逆）
 - `FULL OUTER JOIN`: 両方を全件にする（MySQL は非対応。UNION で代用）
 
@@ -62,3 +63,5 @@ LEFT JOIN orders ON users.id = orders.user_id;
 
 「注文をしたことがないユーザーの名前を取得したい」という要件に対して、
 なぜ INNER JOIN ではなく LEFT JOIN が必要なのかを説明してください。
+
+LEFT JOINでは、一致した行がない場合でもNULLとして値が返されるため注文をしたことがないユーザーの名前を取得することができるから

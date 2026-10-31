@@ -23,6 +23,7 @@ $queryCount = 0;
 // --- N+1 が発生している悪い例 ---
 echo "=== N+1 版 ===\n";
 
+//usersにデータベースから撮ってきたusersテーブルの全ての情報を連想配列にして入れている
 $users = $pdo->query("SELECT * FROM users")->fetchAll(PDO::FETCH_ASSOC);
 $queryCount++;
 
@@ -37,7 +38,6 @@ foreach ($users as $user) {
 
 echo "実行クエリ数: {$queryCount}回\n\n";
 
-
 // --- TODO(human): JOIN を使って1クエリで解決する版を書く ---
 echo "=== JOIN 版 ===\n";
 
@@ -45,7 +45,9 @@ $queryCount = 0;
 
 // TODO(human): users と posts を LEFT JOIN + GROUP BY で結合し、
 //              各ユーザーの名前と投稿数を1クエリで取得する
-$result = null; // TODO(human): $pdo->query(...)->fetchAll(PDO::FETCH_ASSOC)
+
+$result = $pdo->query("SELECT name, COUNT(posts.user_id) as post_count FROM users LEFT JOIN posts on users.id = posts.user_id GROUP BY users.id")->fetchAll(PDO::FETCH_ASSOC); // TODO(human): $pdo->query(...)->fetchAll(PDO::FETCH_ASSOC)
+
 
 if ($result) {
     foreach ($result as $row) {

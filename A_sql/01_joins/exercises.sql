@@ -38,6 +38,7 @@ INSERT INTO orders   VALUES
 --   ...
 
 -- TODO(human):
+SELECT users.name, products.name AS product_name, quantity FROM users INNER JOIN orders ON users.id = orders.user_id INNER JOIN products ON orders.product_id = products.id;
 
 
 -- Q2: 全ユーザーについて、注文があれば商品名を、なければ NULL を表示する（LEFT JOIN）
@@ -51,13 +52,14 @@ INSERT INTO orders   VALUES
 --   Dave  | NULL
 
 -- TODO(human):
+SELECT users.name, products.name AS product_name FROM users LEFT JOIN orders ON users.id = orders.user_id LEFT JOIN products ON orders.product_id = products.id;
 
 
 -- Q3: 一度も注文したことがないユーザーの名前だけを取得する
 -- ヒント: LEFT JOIN + WHERE orders.id IS NULL
 
 -- TODO(human):
-
+SELECT users.name, products.name AS product_name FROM users LEFT JOIN orders ON users.id = orders.user_id LEFT JOIN products ON orders.product_id = products.id WHERE orders.id IS NULL;
 
 -- Q4: 各ユーザーの注文合計金額を取得する（注文がないユーザーは 0 で表示）
 -- ヒント: LEFT JOIN + SUM + COALESCE（NULL を 0 に変換する関数）
@@ -69,8 +71,12 @@ INSERT INTO orders   VALUES
 --   Dave  | 0
 
 -- TODO(human):
+SELECT users.name, COALESCE(SUM(quantity * price), 0) AS total FROM users LEFT JOIN orders ON users.id = orders.user_id LEFT JOIN products ON orders.product_id = products.id 
+GROUP BY users.id;
 
 
 -- Q5: 最も多く注文された商品の名前と合計注文数を取得する
 
 -- TODO(human):
+SELECT products.name, SUM(quantity) as count FROM users LEFT JOIN orders ON users.id = orders.user_id LEFT JOIN products ON orders.product_id = products.id 
+GROUP BY products.id ORDER BY count DESC LIMIT 1;
