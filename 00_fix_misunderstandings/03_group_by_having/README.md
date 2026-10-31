@@ -37,6 +37,7 @@ HAVING COUNT(*) > 10;            -- その後グループを絞る
 ```
 
 集約関数（GROUP BY と一緒に使えるもの）:
+
 - `COUNT(*)` - 件数
 - `SUM(column)` - 合計
 - `AVG(column)` - 平均
@@ -50,6 +51,7 @@ HAVING COUNT(*) > 10;            -- その後グループを絞る
 `exercises.sql` を開いて `TODO(human)` のクエリを書いてください。
 
 SQLite で手元で試す場合:
+
 ```bash
 sqlite3 workshop.db < exercises.sql
 ```
@@ -69,3 +71,6 @@ sqlite3 workshop.db < exercises.sql
 
 「WHERE と HAVING の違いを、処理の順序という観点から」自分の言葉で説明してください。
 「まず○○して、次に○○する」という形で答えてみてください。
+
+
+まずWHEREがユーザーが入力した条件に沿って、条件をフィルターし、その後HAVINGの条件に沿ってフィルターされる。

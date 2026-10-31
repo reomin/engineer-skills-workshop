@@ -14,13 +14,14 @@ echo "SHA256 hash1: $hash1\n";
 echo "SHA256 hash2: $hash2\n";
 echo "一致するか: " . ($hash1 === $hash2 ? 'YES（問題あり）' : 'NO') . "\n\n";
 
+//一致する。
 
 // --- Step 2: password_hash を使う ---
 
 // TODO(human): password_hash() を使って $password をハッシュ化する
 //              アルゴリズムは PASSWORD_BCRYPT を使う
-$bcryptHash1 = null; // TODO(human)
-$bcryptHash2 = null; // TODO(human): もう1回ハッシュ化する（同じパスワードで）
+$bcryptHash1 = password_hash('password123', PASSWORD_BCRYPT); // TODO(human)
+$bcryptHash2 = password_hash('password123', PASSWORD_BCRYPT); // TODO(human): もう1回ハッシュ化する（同じパスワードで）
 
 echo "bcrypt hash1: $bcryptHash1\n";
 echo "bcrypt hash2: $bcryptHash2\n";
@@ -34,8 +35,8 @@ echo "一致するか: " . ($bcryptHash1 === $bcryptHash2 ? 'YES' : 'NO（ソル
 $correctPassword = 'password123';
 $wrongPassword   = 'wrongpassword';
 
-$isCorrect = null; // TODO(human): $bcryptHash1 に対して $correctPassword を検証
-$isWrong   = null; // TODO(human): $bcryptHash1 に対して $wrongPassword を検証
+$isCorrect = password_verify($correctPassword, $bcryptHash1);
+$isWrong   = password_verify($wrongPassword, $bcryptHash2); // TODO(human): $bcryptHash1 に対して $wrongPassword を検証
 
 echo "正しいパスワード: " . ($isCorrect ? '認証成功' : '認証失敗') . "\n";
 echo "間違ったパスワード: " . ($isWrong ? '認証成功（問題あり）' : '認証失敗（正しい）') . "\n\n";
@@ -48,11 +49,17 @@ echo "間違ったパスワード: " . ($isWrong ? '認証成功（問題あり�
 
 $start = microtime(true);
 // TODO(human): コスト10でハッシュ化
+$options = ['cost' => 10];
+$bcryptHash3 = password_hash('password123', PASSWORD_BCRYPT, $options);
+
 $end = microtime(true);
 echo "コスト10: " . round(($end - $start) * 1000, 2) . "ms\n";
 
 $start = microtime(true);
 // TODO(human): コスト12でハッシュ化
+$options = ['cost' => 12];
+$bcryptHash4 = password_hash('password123', PASSWORD_BCRYPT, $options);
+
 $end = microtime(true);
 echo "コスト12: " . round(($end - $start) * 1000, 2) . "ms\n";
 

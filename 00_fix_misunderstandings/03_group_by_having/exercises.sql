@@ -37,7 +37,7 @@ INSERT INTO orders VALUES
 --   ...
 
 -- TODO(human): ここにSQLを書く
-
+SELECT user_id, COUNT(*) as order_count from orders GROUP BY user_id;
 
 -- Q2: 注文件数が3件以上のユーザーだけを取得する（HAVING を使う）
 -- 期待出力例:
@@ -45,7 +45,7 @@ INSERT INTO orders VALUES
 --   3       | 4
 
 -- TODO(human): ここにSQLを書く
-
+SELECT user_id, COUNT(*) as order_count from orders  GROUP BY user_id HAVING order_count > 2;
 
 -- Q3: 各ユーザーの注文合計金額を取得する（多い順に並べる）
 -- 期待出力例:
@@ -54,14 +54,20 @@ INSERT INTO orders VALUES
 --   ...
 
 -- TODO(human): ここにSQLを書く
-
+SELECT user_id, SUM(amount) as total_amount from orders GROUP BY user_id ORDER BY total_amount DESC;
 
 -- Q4: 2024年4月以降の注文だけを対象に、合計金額が1000円以上のユーザーを取得する
 -- （WHERE と HAVING を両方使う）
 
 -- TODO(human): ここにSQLを書く
+SELECT users.id, users.name FROM users LEFT JOIN orders ON users.id = orders.user_id 
+where created_at >= '2024-04-01' 
+GROUP BY user_id 
+HAVING SUM(orders.amount) >= 1000;
 
 
 -- Q5: users テーブルと JOIN して、ユーザー名と注文件数を一緒に表示する
+SELECT users.name, COUNT(*) FROM users LEFT JOIN orders ON users.id = orders.user_id
+GROUP BY user_id;
 
 -- TODO(human): ここにSQLを書く
