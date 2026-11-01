@@ -6,14 +6,14 @@ declare(strict_types=1);
 
 // TODO(human): 税率 10% を適用するクロージャを $applyTax に代入する
 //              引数: float $price, 返り値: float
-$applyTax = null; // TODO(human)
-// var_dump($applyTax(1000.0)); // 期待値: 1100.0
-
+$applyTax = fn(float $price): ?float => 1.1 * $price; // TODO(human)
+var_dump($applyTax(1000.0)); // 期待値: 1100.0
 
 // TODO(human): $rate を外のスコープから取り込んで、任意の税率を適用できる関数を作る
 $rate = 0.08; // 8%
-$applyCustomTax = null; // TODO(human): use または fn を使う
-// var_dump($applyCustomTax(1000.0)); // 期待値: 1080.0
+$applyCustomTax = function (int $price) use ($rate): float {
+    return $price * (1 + $rate);
+}; // TODO(human): use または fn を使う
 
 
 // --- array_map ---

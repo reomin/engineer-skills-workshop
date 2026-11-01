@@ -6,11 +6,10 @@ declare(strict_types=1);
 
 // TODO(human): 以下のパターンが何にマッチするかコメントで説明する
 $patterns = [
-    '/^\d{4}-\d{2}-\d{2}$/',                                    // TODO: 何にマッチするか
-    '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',      // TODO: 何にマッチするか
-    '/https?:\/\/[^\s]+/',                                        // TODO: 何にマッチするか
-    '/^[0-9]{3}-[0-9]{4}$/',                                     // TODO: 何にマッチするか
-    '/^\+?[0-9\-\(\)\s]{10,}$/',                                 // TODO: 何にマッチするか
+    '/^\d{4}-\d{2}-\d{2}$/',                                    // TODO: 何にマッチするか 4桁の数字-2桁の数字-2桁の数字 生年月日
+    '/https?:\/\/[^\s]+/',                                        // TODO: 何にマッチするか https or http url
+    '/^[0-9]{3}-[0-9]{4}$/',                                     // TODO: 何にマッチするか 0~9で構成された三桁の数字-0~9で構成された四桁の数字 郵便番号
+    '/^\+?[0-9\-\(\)\s]{10,}$/',                                 // TODO: 何にマッチするか 電話番号
 ];
 
 foreach ($patterns as $i => $pattern) {
@@ -23,6 +22,10 @@ foreach ($patterns as $i => $pattern) {
 function validateDate(string $date): bool
 {
     // TODO(human): YYYY-MM-DD 形式かどうかを正規表現で検証する
+    $result = preg_match('/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/', $date);
+    if ($result == 1) {
+        return true;
+    }
     return false; // TODO
 }
 
@@ -39,6 +42,10 @@ echo "\n";
 function validateEmail(string $email): bool
 {
     // TODO(human): メールアドレスの正規表現バリデーションを書く
+    $result = preg_match('/\A[a-zA-Z0-9_.+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-]+\z/', $email);
+    if ($result == 1) {
+        return true;
+    }
     return false; // TODO
 }
 
@@ -50,6 +57,8 @@ foreach ($emails as $email) {
 
 
 echo "\n";
+
+die;
 
 function validateJapanesePhone(string $phone): bool
 {
@@ -70,7 +79,7 @@ echo "\n";
 
 // TODO(human): 連続する空白を1つのスペースに置換する
 $messy = "hello   world\t\tthis  is   PHP";
-$clean = null; // TODO(human): preg_replace で実装
+$clean = preg_replace('//', $messy);
 echo "clean: $clean\n"; // 期待値: "hello world this is PHP"
 
 
