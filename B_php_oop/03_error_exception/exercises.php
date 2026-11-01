@@ -6,6 +6,19 @@ declare(strict_types=1);
 
 echo "=== Step 1: TypeError ===\n";
 // TODO(human): strict_types=1 の状態で文字列を int の引数に渡して TypeError を発生させる
+// try {
+//     $result = addInts("aaa", 2);
+// } catch (Exception $e) {
+//     echo $e;
+// }
+
+try {
+    $result = addInts("aaa", 2);
+} catch (Throwable $e) {
+    echo $e;
+}
+
+echo "こんにちは";
 //              catch (Exception $e) では拾えないことを確認し、
 //              catch (Throwable $e) では拾えることを確認する
 
@@ -16,7 +29,7 @@ function addInts(int $a, int $b): int
 
 try {
     // TODO(human): addInts に文字列を渡して TypeError を発生させる
-    // $result = addInts('hello', 1);
+    $result = addInts('hello', 1);
 } catch (Exception $e) {
     echo "Exception で拾えた: " . $e->getMessage() . "\n";
 } catch (Throwable $e) {
@@ -29,9 +42,9 @@ echo "\n=== Step 2: DivisionByZeroError ===\n";
 //              catch (Throwable $e) で拾い、クラス名とメッセージを表示する
 
 try {
-    // TODO(human)
+    $result = intdiv(10, 0);
 } catch (Throwable $e) {
-    // TODO(human): クラス名（get_class）とメッセージを表示する
+    echo get_class($e) . "で拾えた" . $e->getMessage() . "\n";
 }
 
 
@@ -43,11 +56,18 @@ echo "\n=== Step 3: カスタム例外を定義する ===\n";
 class InvalidAgeException extends Exception
 {
     // TODO(human)
+    public function __construct(int $age)
+    {
+        $this->message = "無効な年齢です:" . $age;
+    }
 }
 
 function createUser(string $name, int $age): array
 {
     // TODO(human): $age が 0 未満または 150 超の場合に InvalidAgeException を投げる
+    if ($age < 0 || $age > 150) {
+        throw new \InvalidAgeException($age);
+    }
     return ['name' => $name, 'age' => $age];
 }
 
@@ -75,5 +95,8 @@ try {
     echo "例外をキャッチ: " . $e->getMessage() . "\n";
 } finally {
     // TODO(human): $fileHandle が開いていれば閉じる
+    if (is_resource($fileHandle)) {
+        fclose($fileHandle);
+    }
     echo "finally が実行された\n";
 }

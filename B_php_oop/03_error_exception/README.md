@@ -72,3 +72,6 @@ php exercises.php
 
 「`catch (Exception $e)` と `catch (Throwable $e)` の使い分け」を
 「どんな場面でどちらを使うべきか」という観点で説明してください。
+
+アプリケーションの想定内の異常(バリデーションやユーザーが実装したエラー) を出したいときには、catch (Exception $e)
+言語レベルでのエラーを出したいときにはcatch (Throwable $e) と使い分ける

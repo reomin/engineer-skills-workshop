@@ -38,12 +38,12 @@ abstract class AbstractPayment {
 
 使い分けの基準:
 
-| 状況 | 選択 |
-|------|------|
-| 「できること」の契約だけ定義したい | interface |
-| 複数クラスに共通処理を持たせたい | abstract class |
-| 1つのクラスが複数の「役割」を持つ | interface（複数 implements できる）|
-| 継承ツリーの中で共通の基底を作りたい | abstract class |
+| 状況                                 | 選択                                |
+| ------------------------------------ | ----------------------------------- |
+| 「できること」の契約だけ定義したい   | interface                           |
+| 複数クラスに共通処理を持たせたい     | abstract class                      |
+| 1つのクラスが複数の「役割」を持つ    | interface（複数 implements できる） |
+| 継承ツリーの中で共通の基底を作りたい | abstract class                      |
 
 ---
 
@@ -69,3 +69,5 @@ php payment.php
 
 「interface を implements したクラスで、実装し忘れたメソッドがあるとどうなるか」を
 実際にコードを書いて確認してください。エラーメッセージから何が読み取れますか？
+
+実装し忘れたクラスがあると does not implement method ~ になります。

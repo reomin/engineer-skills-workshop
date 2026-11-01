@@ -10,6 +10,8 @@ declare(strict_types=1);
 interface PaymentInterface
 {
     // TODO(human): メソッドシグネチャを書く
+    function pay(int $amount): bool;
+    function getMethodName(): string;
 }
 
 
@@ -21,6 +23,17 @@ interface PaymentInterface
 class CreditCardPayment implements PaymentInterface
 {
     // TODO(human)
+
+    public function pay(int $amount): bool
+    {
+        echo ("クレジットカードで{$amount}円支払いました");
+        return true;
+    }
+
+    public function getMethodName(): string
+    {
+        return "クレジットカード";
+    }
 }
 
 // TODO(human): ConveniencePayment クラスを実装する
@@ -29,6 +42,17 @@ class CreditCardPayment implements PaymentInterface
 class ConveniencePayment implements PaymentInterface
 {
     // TODO(human)
+
+    public function pay(int $amount): bool
+    {
+        echo ("コンビニで{$amount}円支払いました");
+        return true;
+    }
+
+    public function getMethodName(): string
+    {
+        return "コンビニ払い";
+    }
 }
 
 
@@ -41,6 +65,19 @@ class ConveniencePayment implements PaymentInterface
 abstract class AbstractPayment
 {
     // TODO(human)
+    protected $methodName;
+
+    public function logPayment(int $amount): void
+    {
+        echo "[LOG] {$this->methodName}: {$amount}円";
+    }
+
+    public function getMethodName(): string
+    {
+        return "{$this->methodName}";
+    }
+
+    abstract public function pay(int $amount): bool;
 }
 
 // TODO(human): PayPayPayment を AbstractPayment を継承して実装する
@@ -49,6 +86,13 @@ abstract class AbstractPayment
 class PayPayPayment extends AbstractPayment
 {
     // TODO(human)
+    protected $methodName = "PayPay";
+
+    public function pay(int $amount): bool
+    {
+        parent::logPayment($amount);
+        return true;
+    }
 }
 
 
